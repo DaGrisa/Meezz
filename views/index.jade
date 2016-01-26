@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  p Welcome to #{title}
+  p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+  form#formAddUser(name="newroom",method="post",action="/room")
+    input#inputRoomName(type="text", placeholder="Room Name", name="roomname")
+    button#btnRandom(type="button", onclick='document.getElementById(\'inputRoomName\').value = randomRoomName();') Random Name
+    button#btnSubmit(type="button", onclick='openRoom(document.getElementById(\'inputRoomName\').value)') Start Videochat

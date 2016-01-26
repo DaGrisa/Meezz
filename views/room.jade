@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h2= title + ' ' + roomId
+  p Send this URL to your chat partners: 
+    a(href=url) #{url}
+  video(id='localVideo')
+  div(id='remoteVideos')
+  script connect('#{roomId}');
