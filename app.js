@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var room = require('./routes/room');
-//var users = require('./routes/users');
 
 // modules and variables for https
 var fs = require('fs');
@@ -17,6 +16,12 @@ var options = {
    key  : fs.readFileSync('./ssl/key.pem'),
    cert : fs.readFileSync('./ssl/cert.pem')
 };
+
+// MongoDB
+// New Code
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/meezz');
 
 var app = express();
 
@@ -33,8 +38,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+// routes with db object
+app.use(function(req,res,next){
+    req.db = db;
+    // create index on roomId
+    var rooms = db.get('rooms');
+    rooms.index('roomId', { unique: true });
+    next();
+});
 app.use('/room', room);
-//app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

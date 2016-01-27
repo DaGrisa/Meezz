@@ -4,13 +4,13 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #337ab7;
 }
 
 #remoteVideos video {
-  height: 150px;
+  height: 240px;
 }
 
 #localVideo {
-  height: 150px;
+  height: 240px;
 }

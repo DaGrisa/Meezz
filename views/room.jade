@@ -1,9 +1,21 @@
 extends layout
 
 block content
-  h2= title + ' ' + roomId
-  p Send this URL to your chat partners: 
-    a(href=url) #{url}
-  video(id='localVideo')
-  div(id='remoteVideos')
-  script connect('#{roomId}');
+    div(class='jumbotron')
+        h2= title + ' ' + roomId
+        - if (typeof(pin) !== 'undefined')
+            p Send this URL and PIN code to your chat partners.
+                div(class='input-group')
+                    span(class='input-group-addon') URL
+                    input(type='text', class='form-control', value=url, readonly)
+                br
+                div(class='input-group')
+                    span(class='input-group-addon') PIN
+                    input(type='text', class='form-control', value=pin, readonly)        
+        - else
+            p You are connected to the chatroom.
+    div(class='row', id='videos')
+        div(class='col-xs-12 col-md-8 localVideo')
+            video(id='localVideo', class='center-block')
+        div(class='col-xs-12 col-md-8', id='remoteVideos')
+    script connect('#{roomId}');

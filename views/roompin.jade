@@ -2,11 +2,9 @@ extends layout
 
 block content
     div(class='jumbotron')
-        h2='Welcome to ' + title
+        h2= title
         p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-        form#formNewRoom(name="newroom",method="post",action="/room")
-            input#inputRoomName(type="text", class='form-control', placeholder="Room Name", name="roomname")
+        form#formRoomPin(name="roompin",method="post",action="/room/#{roomId}")
+            input#inputRoomPin(type="password", class='form-control', placeholder="PIN", name="pin")
             br
-            div(class='btn-group',role='group')
-                button#btnRandom(type='button', class='btn btn-primary', role='group', onclick='document.getElementById(\'inputRoomName\').value = randomRoomName();') Random Name
-                button#btnSubmit(type='button', class='btn btn-success',  role='group', onclick='openRoom(document.getElementById(\'inputRoomName\').value)') Start Videochat
+            button#btnSubmit(type="submit", class='btn btn-success') Enter Room
