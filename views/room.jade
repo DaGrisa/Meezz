@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    div(class='jumbotron')
+        h2= title + ' ' + roomId
+        - if (typeof(pin) !== 'undefined')
+            p= textRoomHost
+                div(class='input-group')
+                    span(class='input-group-addon') URL
+                    input(type='text', class='form-control', value=url, readonly)
+                br
+                div(class='input-group')
+                    span(class='input-group-addon') PIN
+                    input(type='text', class='form-control', value=pin, readonly)        
+        - else
+            p= textRoomGuest
+    div(class='panel panel-info')
+        div(class='panel-heading')
+            | #{videoOwn}
+        div(class='panel-body')
+            video(id='localVideo', class='center-block')
+    div(class='panel panel-success')
+        div(class='panel-heading')
+            | #{videoOther}
+        div(class='panel-body')
+            div(id='remoteVideos')
+    script connect('#{roomId}');

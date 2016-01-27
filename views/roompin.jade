@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    div(class='jumbotron')
+        h2= title
+        p= pinText
+        form#formRoomPin(name="roompin",method="post",action="/room/#{roomId}")
+            input#inputRoomPin(type="password", class='form-control', placeholder="PIN", name="pin")
+            br
+            button#btnSubmit(type="submit", class='btn btn-success') #{buttonPIN}

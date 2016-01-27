@@ -1,0 +1,16 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #337ab7;
+}
+
+#remoteVideos video {
+  height: 240px;
+}
+
+#localVideo {
+  height: 240px;
+}

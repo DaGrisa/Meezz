@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    div(class='jumbotron')
+        h2='Welcome to ' + title
+        p= welcomeText
+        form#formNewRoom(name="newroom",method="post",action="/room")
+            input#inputRoomName(type="text", class='form-control', placeholder="Room Name", name="roomname")
+            br
+            div(class='btn-group',role='group')
+                button#btnRandom(type='button', class='btn btn-primary', role='group', onclick='document.getElementById(\'inputRoomName\').value = randomRoomName();') #{buttonRandom}
+                button#btnSubmit(type='button', class='btn btn-success',  role='group', onclick='openRoom(document.getElementById(\'inputRoomName\').value)') #{buttonStart}

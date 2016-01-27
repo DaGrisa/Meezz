@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    each error in errors
+        div(class='panel panel-danger')
+            div(class='panel-heading')
+                | Error
+            div(class='panel-body')
+                | #{error.msg}
