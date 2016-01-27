@@ -1,6 +1,9 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+    each error in errors
+        div(class='panel panel-danger')
+            div(class='panel-heading')
+                | Error
+            div(class='panel-body')
+                | #{error.msg}

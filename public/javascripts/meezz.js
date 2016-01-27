@@ -22,7 +22,6 @@ function randomRoomName() {
  * @param {String} ID of the room
  */
 function openRoom(roomId) {
-	alert('Room not null validation!');
 	window.location.href = '/room/' + roomId;
 }
 
