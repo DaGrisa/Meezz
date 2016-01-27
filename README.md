@@ -5,7 +5,9 @@ HTML5 WebRTC Videochat written in Node.js
 
 1) install dependencies: npm install
 
-2) generate SSL server certificates: bash ssl/generate-ssl-certs.sh
+2) install and start MongoDB (on port 27017)
+
+3) generate SSL server certificates: bash ssl/generate-ssl-certs.sh
 
 4) set signalmaster server in public/javascripts/meezz.js
 
