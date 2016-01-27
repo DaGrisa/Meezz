@@ -3,10 +3,10 @@ extends layout
 block content
     div(class='jumbotron')
         h2='Welcome to ' + title
-        p Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        p= welcomeText
         form#formNewRoom(name="newroom",method="post",action="/room")
             input#inputRoomName(type="text", class='form-control', placeholder="Room Name", name="roomname")
             br
             div(class='btn-group',role='group')
-                button#btnRandom(type='button', class='btn btn-primary', role='group', onclick='document.getElementById(\'inputRoomName\').value = randomRoomName();') Random Name
-                button#btnSubmit(type='button', class='btn btn-success',  role='group', onclick='openRoom(document.getElementById(\'inputRoomName\').value)') Start Videochat
+                button#btnRandom(type='button', class='btn btn-primary', role='group', onclick='document.getElementById(\'inputRoomName\').value = randomRoomName();') #{buttonRandom}
+                button#btnSubmit(type='button', class='btn btn-success',  role='group', onclick='openRoom(document.getElementById(\'inputRoomName\').value)') #{buttonStart}

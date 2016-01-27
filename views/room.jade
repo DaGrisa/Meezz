@@ -4,7 +4,7 @@ block content
     div(class='jumbotron')
         h2= title + ' ' + roomId
         - if (typeof(pin) !== 'undefined')
-            p Send this URL and PIN code to your chat partners.
+            p= textRoomHost
                 div(class='input-group')
                     span(class='input-group-addon') URL
                     input(type='text', class='form-control', value=url, readonly)
@@ -13,9 +13,15 @@ block content
                     span(class='input-group-addon') PIN
                     input(type='text', class='form-control', value=pin, readonly)        
         - else
-            p You are connected to the chatroom.
-    div(class='row', id='videos')
-        div(class='col-xs-12 col-md-8 localVideo')
+            p= textRoomGuest
+    div(class='panel panel-info')
+        div(class='panel-heading')
+            | #{videoOwn}
+        div(class='panel-body')
             video(id='localVideo', class='center-block')
-        div(class='col-xs-12 col-md-8', id='remoteVideos')
+    div(class='panel panel-success')
+        div(class='panel-heading')
+            | #{videoOther}
+        div(class='panel-body')
+            div(id='remoteVideos')
     script connect('#{roomId}');
