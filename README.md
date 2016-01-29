@@ -11,7 +11,7 @@ HTML5 WebRTC Videochat written in Node.js
 
 4) generate SSL server certificates: bash ssl/generate-ssl-certs.sh
 
-5) set signalmaster server in public/javascripts/meezz.js
+5) set signalmaster server variable in public/javascripts/meezz.js
 
 6) start webapp: npm start (debug mode: SET DEBUG=meezz:* & npm start)
 
@@ -20,3 +20,7 @@ HTML5 WebRTC Videochat written in Node.js
 ## Signalmaster Server
 
 https://github.com/andyet/signalmaster
+
+## UI Text
+
+All the texts used in the application can be set in variables in the file /views/layout.jade.
