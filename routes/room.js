@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
+/* GET no room name set */
 router.get('/', function(req, res, next) {
     console.log('RoomId empty => redirect to usererror page');
     res.render('usererror', { error: { type: 'Room error', text: 'Room needs to have a name.' } });
 })
 
-/* GET room page. */
+/* GET room page. => new room */
 router.get('/:roomId', function (req, res, next) {
     console.log('in room GET');
     // validations
@@ -17,8 +18,8 @@ router.get('/:roomId', function (req, res, next) {
         return;
     }
     
-    // reorg rooms
-    reorgRooms(req.db, function(err){
+    // reorg rooms older then 12 hours
+    reorgRooms(req.db, 12, function(err){
         if(err) console.log('Error occcured during reorg: ' + JSON.stringify(err));
     })
     
@@ -46,7 +47,7 @@ router.get('/:roomId', function (req, res, next) {
     });
 });
 
-/* POST room page. */
+/* POST room page. => enter room */
 router.post('/:roomId', function (req, res, next) {
     console.log('in room POST');
     // validations
@@ -77,6 +78,11 @@ router.post('/:roomId', function (req, res, next) {
 
 module.exports = router;
 
+/**
+ * generates the sha-512 hash value of a string value
+ * @param {String} value to be hashed
+ * @return {String} hash value
+ */
 function hash(value) {
     if (typeof value === 'string') {
         var crypto = require('crypto');
@@ -86,20 +92,37 @@ function hash(value) {
     return null;
 }
 
+/**
+ * generates a pin code which consitsts of 5 numbers
+ * @return {String} pin code
+ */
 function generatePIN() {
     number = Math.floor(Math.random() * 99999 + 1);
-    return lPad(number, 5);
+    return lPad(number, 5, '0');
 }
 
-function lPad(value, length) {
+/**
+ * left padding of a string value
+ * @param {String} value to be padded
+ * @param {String} length of the output
+ * @param {String} character used for padding
+ * @return {String} padded value
+ */
+function lPad(value, length, char) {
     value = value.toString();
     iterator = length - value.length;
     while (iterator--) {
-        value = '0' + value;
+        value = char + value;
     }
     return value;
 }
 
+/**
+ * search a specific room by its id in the database
+ * @param {monk} monk database module
+ * @param {String} ID of the room
+ * @param {function} callback function
+ */
 function getRoom(db, roomId, callback) {
     var rooms = db.get('rooms');
 
@@ -108,6 +131,13 @@ function getRoom(db, roomId, callback) {
     });
 }
 
+/**
+ * insert a new room into the database
+ * @param {monk} monk database module
+ * @param {String} ID of the room
+ * @param {String} sha-512 hashed pin code for the room
+ * @param {function} callback function
+ */
 function writeRoom(db, roomId, pinHash, callback) {
     // write roomId, pinHash and timestamp (for reorg)
     var error;
@@ -134,10 +164,16 @@ function writeRoom(db, roomId, pinHash, callback) {
     callback(error, data);
 }
 
-function reorgRooms(db, callback) {
+/**
+ * deletes "old" rooms from the database
+ * @param {monk} monk database module
+ * @param {Number} hours to keep the room data
+ * @param {function} callback function
+ */
+function reorgRooms(db, hours, callback) {
     var rooms = db.get('rooms');
     
-    rooms.remove({ timestamp: { $lt: Math.floor(Date.now() / 1000 - 24*60*60)} }, function(err) {
+    rooms.remove({ timestamp: { $lt: Math.floor(Date.now() / 1000 - hours*60*60)} }, function(err) {
         if(err) callback(err);
     });
 }

@@ -5,15 +5,17 @@ HTML5 WebRTC Videochat written in Node.js
 
 1) install dependencies: npm install
 
-2) install and start MongoDB (on port 27017)
+2) create a "data" directory for the database
 
-3) generate SSL server certificates: bash ssl/generate-ssl-certs.sh
+3) install and start MongoDB (on port 27017): mongod --dbpath /PATH_TO_MEEZZ/data
 
-4) set signalmaster server in public/javascripts/meezz.js
+4) generate SSL server certificates: bash ssl/generate-ssl-certs.sh
 
-5) start webapp: npm start (debug mode: SET DEBUG=meezz:* & npm start)
+5) set signalmaster server in public/javascripts/meezz.js
 
-6) Meezz runs on port 80 (HTTP) and 443 (HTTPS)
+6) start webapp: npm start (debug mode: SET DEBUG=meezz:* & npm start)
+
+7) Meezz runs on port 80 (HTTP) and 443 (HTTPS)
 
 ## Signalmaster Server
 

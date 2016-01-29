@@ -1,6 +1,5 @@
 var express = require('express');
 var expressValidator = require('express-validator');
-var util = require('util');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -43,7 +42,6 @@ app.use('/', routes);
 // routes with db object and util
 app.use(function(req,res,next){
     req.db = db;
-    req.util = util;
     // create index on roomId
     var rooms = db.get('rooms');
     rooms.index('roomId', { unique: true });
