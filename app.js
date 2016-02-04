@@ -81,6 +81,6 @@ app.use(function(err, req, res, next) {
 });
 
 // start HTTPS server at port 443
-https.createServer(options, app).listen(443);
+https.createServer(options, app).listen(3100);
 
 module.exports = app;

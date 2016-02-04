@@ -1,5 +1,5 @@
 // global variables
-var signalServer = 'https://10.0.0.3:8888/';
+var signalServer = 'https://ec2-52-28-51-94.eu-central-1.compute.amazonaws.com:8888/';
 
 /**
  * generates a random room name
