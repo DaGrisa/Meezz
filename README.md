@@ -15,7 +15,7 @@ HTML5 WebRTC Videochat written in Node.js
 
 6) start webapp: npm start (debug mode: SET DEBUG=meezz:* & npm start)
 
-7) Meezz runs on port 80 (HTTP) and 443 (HTTPS)
+7) Meezz runs on port 3000 (HTTP) and 3100 (HTTPS)
 
 ## Signalmaster Server
 
