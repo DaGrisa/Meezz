@@ -86,6 +86,7 @@ module.exports = router;
 function hash(value) {
     if (typeof value === 'string') {
         var crypto = require('crypto');
+        // TODO salt
         var hash = crypto.createHash('sha512').update(value).digest('hex');
         return hash;
     }
