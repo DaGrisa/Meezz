@@ -11,19 +11,27 @@ var room = require('./routes/room');
 
 // modules and variables for https
 var fs = require('fs');
+var constants = require('constants');
 var https = require('https');
 var options = {
-   key  : fs.readFileSync('./ssl/key.pem'),
-   cert : fs.readFileSync('./ssl/cert.pem')
+  // POODLE Attack Protection
+  secureProtocol: 'SSLv23_method',
+  secureOptions: constants.SSL_OP_NO_SSLv3,
+  key  : fs.readFileSync('./ssl/key.pem'),
+  cert : fs.readFileSync('./ssl/cert.pem')
 };
 
 // MongoDB
-// New Code
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/meezz');
 
+// helmet for secure http headers
+var helmet = require('helmet');
+
 var app = express();
+
+app.use(helmet());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,7 +49,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 // routes with db object and util
 app.use(function(req,res,next){
-    req.db = db;
     // create index on roomId
     var rooms = db.get('rooms');
     rooms.index('roomId', { unique: true });
