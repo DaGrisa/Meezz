@@ -11,6 +11,7 @@ var room = require('./routes/room');
 
 // modules and variables for https
 var fs = require('fs');
+var constants = require('constants');
 var https = require('https');
 var options = {
   // POODLE Attack Protection
