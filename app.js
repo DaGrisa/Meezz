@@ -13,8 +13,11 @@ var room = require('./routes/room');
 var fs = require('fs');
 var https = require('https');
 var options = {
-   key  : fs.readFileSync('./ssl/key.pem'),
-   cert : fs.readFileSync('./ssl/cert.pem')
+  // POODLE Attack Protection
+  secureProtocol: 'SSLv23_method',
+  secureOptions: constants.SSL_OP_NO_SSLv3,
+  key  : fs.readFileSync('./ssl/key.pem'),
+  cert : fs.readFileSync('./ssl/cert.pem')
 };
 
 // MongoDB

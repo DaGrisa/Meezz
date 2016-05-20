@@ -77,6 +77,7 @@ router.post('/:roomId', function (req, res, next) {
                 }
             }
         }
+        
         if(wrongPinCount>=5){
             console.log('too many login attempts from ' + req.headers['x-forwarded-for']);
             res.render('usererror', { errors: { error: { type: 'Room error', msg: 'Too many login attempts.' } } });
