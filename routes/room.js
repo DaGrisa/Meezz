@@ -31,10 +31,11 @@ router.get('/:roomId', function (req, res, next) {
         if (room === null) {
             // generate new room and pin
             var pin = generatePIN();
-            var pinHash = hash(pin);
-            writeRoom(req.db, roomId, pinHash, function (err, data) {
+            var salt = crypto.randomBytes(128).toString('base64');
+            var pinHash = hash(salt + pin);
+            writeRoom(req.db, roomId, salt, pinHash, function (err, data) {
                 if (err) {
-                    res.render('usererror', { error: { type: 'Room error', text: 'Error writing room data.' } });
+                    res.render('usererror', { errors: { error: { type: 'Room error', text: 'Error writing room data.' } } });
                 } else {
                     // redirect to chatroom with plaintext pin
                     res.render('room', { title: 'Room', roomId: roomId, pin: pin, url: req.protocol + '://' + req.get('host') + req.originalUrl });
@@ -66,7 +67,7 @@ router.post('/:roomId', function (req, res, next) {
     getRoom(req.db, roomId, function (room) {
         console.log('req.body.pin: ' + req.body.pin);
         // read pin post data
-        if (hash(req.body.pin) == room.pinHash) {
+        if (hash(room.salt + req.body.pin) == room.pinHash) {
             // redirect to chatroom without pin
             res.render('room', { title: 'Room', roomId: roomId });
         } else {
@@ -139,7 +140,7 @@ function getRoom(db, roomId, callback) {
  * @param {String} sha-512 hashed pin code for the room
  * @param {function} callback function
  */
-function writeRoom(db, roomId, pinHash, callback) {
+function writeRoom(db, roomId, salt, pinHash, callback) {
     // write roomId, pinHash and timestamp (for reorg)
     var error;
     var data;
@@ -149,6 +150,7 @@ function writeRoom(db, roomId, pinHash, callback) {
     // Submit to the DB
     rooms.insert({
         "roomId": roomId,
+        "salt": salt,
         "pinHash": pinHash,
         "timestamp": Math.floor(Date.now() / 1000)
     }, function (err, doc) {
