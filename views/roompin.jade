@@ -5,6 +5,6 @@ block content
         h2= title
         p= pinText
         form#formRoomPin(name="roompin",method="post",action="/room/#{roomId}")
-            input#inputRoomPin(type="password", class='form-control', placeholder="PIN", name="pin")
+            input#inputRoomPin(type="password", class='form-control', placeholder="PIN", name="pin", autocomplete="off")
             br
             button#btnSubmit(type="submit", class='btn btn-success') #{buttonPIN}
