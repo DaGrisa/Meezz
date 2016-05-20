@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET no room name set */
 router.get('/', function(req, res, next) {
     console.log('RoomId empty => redirect to usererror page');
-    res.render('usererror', { errors: [ { error: { type: 'Room error', msg: 'Room needs to have a name.' } } ] });
+    res.render('usererror', { errors: { error: { type: 'Room error', msg: 'Room needs to have a name.' } } });
 })
 
 /* GET room page. => new room */
