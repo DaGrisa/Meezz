@@ -51,6 +51,24 @@ exports.writeRoom = function (roomId, salt, pinHash, callback) {
     callback(error, data);
 }
 
+exports.addAgent = function (room, agent) {
+    var rooms = db.get('rooms');
+
+    // Submit to the DB
+    rooms.update(room._id,{
+        $push: { wrongPin : agent }
+    },function (err, doc) {
+        if (err) {
+            // If it failed, return error
+            console.log("There was a problem adding the information to the database. " + err);
+            error = err;
+            data = doc;
+        } else {
+            console.log('room ' + roomId + ' updated');
+        }
+    })
+}
+
 /**
  * deletes "old" rooms from the database
  * @param {monk} monk database module

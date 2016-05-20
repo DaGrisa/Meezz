@@ -68,13 +68,29 @@ router.post('/:roomId', function (req, res, next) {
     var roomId = req.params.roomId;
     db.getRoom(roomId, function (room) {
         console.log('req.body.pin: ' + req.body.pin);
-        // read pin post data
-        if (hash(room.salt + req.body.pin) == room.pinHash) {
-            // redirect to chatroom without pin
-            res.render('room', { title: 'Room', roomId: roomId });
+        // check login attempts
+        var wrongPinCount = 0;
+        if(room.wrongPin!==undefined){
+            for(var user in room.wrongPin){
+                if(user.ip===req.headers['x-forwarded-for'] || user.agent===req.headers['user-agent']){
+                    wrongPinCount++;
+                }
+            }
+        }
+        if(wrongPinCount>=5){
+            console.log('too many login attempts from ' + req.headers['x-forwarded-for']);
+            res.render('usererror', { errors: { error: { type: 'Room error', msg: 'Too many login attempts.' } } });
         } else {
-            // redirect to chatroom pin
-            res.render('roompin', { title: 'PIN for Room ' + roomId, roomId: roomId });
+            // read pin post data
+            if (hash(room.salt + req.body.pin) == room.pinHash) {
+                // redirect to chatroom without pin
+                res.render('room', { title: 'Room', roomId: roomId });
+            } else {
+                // save ip and fingerprint
+                db.addAgent(room, {'ip':req.headers['x-forwarded-for'], 'user-agent': req.headers['user-agent']});
+                // redirect to chatroom pin
+                res.render('roompin', { title: 'PIN for Room ' + roomId, roomId: roomId });
+            }
         }
     });
 });
