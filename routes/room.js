@@ -31,6 +31,7 @@ router.get('/:roomId', function (req, res, next) {
         if (room === null) {
             // generate new room and pin
             var pin = generatePIN();
+            var crypto = require('crypto');
             var salt = crypto.randomBytes(128).toString('base64');
             var pinHash = hash(salt + pin);
             writeRoom(req.db, roomId, salt, pinHash, function (err, data) {
@@ -87,7 +88,6 @@ module.exports = router;
 function hash(value) {
     if (typeof value === 'string') {
         var crypto = require('crypto');
-        // TODO salt
         var hash = crypto.createHash('sha512').update(value).digest('hex');
         return hash;
     }
