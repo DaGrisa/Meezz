@@ -26,7 +26,12 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/meezz');
 
+// helmet for secure http headers
+var helmet = require('helmet');
+
 var app = express();
+
+app.use(helmet());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
