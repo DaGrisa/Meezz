@@ -41,7 +41,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 // routes with db object and util
 app.use(function(req,res,next){
-    req.db = db;
     // create index on roomId
     var rooms = db.get('rooms');
     rooms.index('roomId', { unique: true });

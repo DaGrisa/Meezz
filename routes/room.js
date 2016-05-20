@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var db = require('../db/room.js');
 
 /* GET no room name set */
 router.get('/', function(req, res, next) {
@@ -19,13 +20,13 @@ router.get('/:roomId', function (req, res, next) {
     }
     
     // reorg rooms older then 12 hours
-    reorgRooms(req.db, 12, function(err){
+    db.reorgRooms(12, function(err){
         if(err) console.log('Error occcured during reorg: ' + JSON.stringify(err));
     })
     
     // check if room exists
     var roomId = req.params.roomId;
-    getRoom(req.db, roomId, function (room) {
+    db.getRoom(roomId, function (room) {
         console.log('search result: ' + JSON.stringify(room));
 
         if (room === null) {
@@ -34,7 +35,7 @@ router.get('/:roomId', function (req, res, next) {
             var crypto = require('crypto');
             var salt = crypto.randomBytes(128).toString('base64');
             var pinHash = hash(salt + pin);
-            writeRoom(req.db, roomId, salt, pinHash, function (err, data) {
+            db.writeRoom(roomId, salt, pinHash, function (err, data) {
                 if (err) {
                     res.render('usererror', { errors: { error: { type: 'Room error', text: 'Error writing room data.' } } });
                 } else {
@@ -65,7 +66,7 @@ router.post('/:roomId', function (req, res, next) {
     
     // check if room exists
     var roomId = req.params.roomId;
-    getRoom(req.db, roomId, function (room) {
+    db.getRoom(roomId, function (room) {
         console.log('req.body.pin: ' + req.body.pin);
         // read pin post data
         if (hash(room.salt + req.body.pin) == room.pinHash) {
@@ -117,66 +118,4 @@ function lPad(value, length, char) {
         value = char + value;
     }
     return value;
-}
-
-/**
- * search a specific room by its id in the database
- * @param {monk} monk database module
- * @param {String} ID of the room
- * @param {function} callback function
- */
-function getRoom(db, roomId, callback) {
-    var rooms = db.get('rooms');
-
-    rooms.findOne({ roomId: roomId }).on('success', function (doc) {
-        callback(doc);
-    });
-}
-
-/**
- * insert a new room into the database
- * @param {monk} monk database module
- * @param {String} ID of the room
- * @param {String} sha-512 hashed pin code for the room
- * @param {function} callback function
- */
-function writeRoom(db, roomId, salt, pinHash, callback) {
-    // write roomId, pinHash and timestamp (for reorg)
-    var error;
-    var data;
-    // Set our collection
-    var rooms = db.get('rooms');
-
-    // Submit to the DB
-    rooms.insert({
-        "roomId": roomId,
-        "salt": salt,
-        "pinHash": pinHash,
-        "timestamp": Math.floor(Date.now() / 1000)
-    }, function (err, doc) {
-        if (err) {
-            // If it failed, return error
-            console.log("There was a problem adding the information to the database. " + err);
-            error = err;
-            data = doc;
-        } else {
-            console.log('room ' + roomId + ' inserted');
-        }
-    });
-
-    callback(error, data);
-}
-
-/**
- * deletes "old" rooms from the database
- * @param {monk} monk database module
- * @param {Number} hours to keep the room data
- * @param {function} callback function
- */
-function reorgRooms(db, hours, callback) {
-    var rooms = db.get('rooms');
-    
-    rooms.remove({ timestamp: { $lt: Math.floor(Date.now() / 1000 - hours*60*60)} }, function(err) {
-        if(err) callback(err);
-    });
 }
