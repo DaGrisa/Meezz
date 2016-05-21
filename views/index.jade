@@ -2,7 +2,7 @@ extends layout
 
 block content
     script.
-        $('input').keypress(function(event) {
+        $('#inputRoomName').keypress(function(event) {
             alert(event.which);
             if (event.which == 13) {
                 event.preventDefault();
