@@ -12,7 +12,6 @@ block content
                 button#btnSubmit(type='button', class='btn btn-success',  role='group', onclick='openRoom(document.getElementById(\'inputRoomName\').value)') #{buttonStart}
     script.
         $('#inputRoomName').keypress(function(event) {
-            alert(event.which);
             if (event.which == 13) {
                 event.preventDefault();
                 $('#btnSubmit').click();
