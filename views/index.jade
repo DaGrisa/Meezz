@@ -1,14 +1,6 @@
 extends layout
 
 block content
-    script.
-        $('#inputRoomName').keypress(function(event) {
-            alert(event.which);
-            if (event.which == 13) {
-                event.preventDefault();
-                $('#btnSubmit').click();
-            }
-        });
     div(class='jumbotron')
         h2='Welcome to ' + title
         p= welcomeText
@@ -18,3 +10,11 @@ block content
             div(class='btn-group',role='group')
                 button#btnRandom(type='button', class='btn btn-primary', role='group', onclick='document.getElementById(\'inputRoomName\').value = randomRoomName();') #{buttonRandom}
                 button#btnSubmit(type='button', class='btn btn-success',  role='group', onclick='openRoom(document.getElementById(\'inputRoomName\').value)') #{buttonStart}
+    script.
+        $('#inputRoomName').keypress(function(event) {
+            alert(event.which);
+            if (event.which == 13) {
+                event.preventDefault();
+                $('#btnSubmit').click();
+            }
+        });
