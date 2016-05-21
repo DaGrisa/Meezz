@@ -53,7 +53,6 @@ app.use(function(req,res,next){
     // create index on roomId
     var rooms = db.get('rooms');
     rooms.index('roomId', { unique: true });
-    next();
 });
 app.use('/room', room);
 
