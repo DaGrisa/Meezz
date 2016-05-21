@@ -5,7 +5,7 @@ block content
         $('input').keypress(function(event) {
             if (event.which == 13) {
                 event.preventDefault();
-                openRoom(document.getElementById('inputRoomName').value);
+                $( "#btnSubmit" ).click();
             }
         });
     div(class='jumbotron')
