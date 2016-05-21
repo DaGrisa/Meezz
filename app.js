@@ -48,12 +48,6 @@ var oneDay = 86400000;
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: oneDay }));
 
 app.use('/', routes);
-// routes with db object and util
-app.use(function(req,res,next){
-    // create index on roomId
-    var rooms = db.get('rooms');
-    rooms.index('roomId', { unique: true });
-});
 app.use('/room', room);
 
 // catch 404 and forward to error handler
