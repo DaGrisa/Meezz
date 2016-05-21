@@ -1,10 +1,17 @@
 extends layout
 
 block content
+    script.
+        $('input').keypress(function(event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                openRoom(document.getElementById('inputRoomName').value)
+            }
+        });
     div(class='jumbotron')
         h2='Welcome to ' + title
         p= welcomeText
-        form#formNewRoom(name="newroom",method="post",action="/room",onsubmit="openRoom(document.getElementById(\'inputRoomName\').value)")
+        form#formNewRoom(name="newroom",method="post",action="/room")
             input#inputRoomName(type="text", class='form-control', placeholder="Room Name", name="roomname")
             br
             div(class='btn-group',role='group')
