@@ -45,7 +45,7 @@ app.use(expressValidator());
 
 // provide and cache static files
 var oneDay = 86400000;
-app.use(express.static(path.join(__dirname, 'public', { maxAge: oneDay })));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: oneDay }));
 
 app.use('/', routes);
 // routes with db object and util
