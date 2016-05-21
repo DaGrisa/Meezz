@@ -4,7 +4,7 @@ block content
     div(class='jumbotron')
         h2='Welcome to ' + title
         p= welcomeText
-        form#formNewRoom(name="newroom",method="post",action="/room")
+        form#formNewRoom(name="newroom",method="post",action="/room",onsubmit="openRoom(document.getElementById(\'inputRoomName\').value)")
             input#inputRoomName(type="text", class='form-control', placeholder="Room Name", name="roomname")
             br
             div(class='btn-group',role='group')
