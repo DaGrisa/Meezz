@@ -6,8 +6,4 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Meezz' });
 });
 
-router.post('/', function(req, res, next) {
-  res.render('index', { title: 'Meezz' });
-});
-
 module.exports = router;
