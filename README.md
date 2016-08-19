@@ -1,5 +1,5 @@
 # Meezz
-HTML5 WebRTC Videochat in Node.js
+HTML5 WebRTC Videochat
 
 ## Installation
 
